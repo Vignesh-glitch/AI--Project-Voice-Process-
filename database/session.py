@@ -5,4 +5,4 @@ engine = create_engine(DATABASE_URL)
 
 def init_db():
     SQLModel.metadata.create_all(engine)
-    print("Transcript database ready.")
+    print(" Transcript database ready.")

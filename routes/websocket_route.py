@@ -12,7 +12,7 @@ async def websocket_endpoint(ws: WebSocket, role: str = Query(...)):
     if session_id not in sessions:
         sessions[session_id] = {"clients": {}, "transcript": []}
     sessions[session_id]["clients"][ws] = {"role": role, "sample_rate": None}
-    print(f"{role} connected ✅")
+    print(f"{role} connected ")
 
     audio_buffer = []
     async def periodic_transcriber():
@@ -36,11 +36,11 @@ async def websocket_endpoint(ws: WebSocket, role: str = Query(...)):
                     sr = int(js.get("sampleRate", 16000))
                     sessions[session_id]["clients"][ws]["sample_rate"] = sr
     except WebSocketDisconnect:
-        print(f"{role} disconnected ❌")
+        print(f"{role} disconnected")
     finally:
         task.cancel()
         if audio_buffer:
             await save_and_transcribe(audio_buffer.copy(), role, ws)
         if not sessions[session_id]["clients"]:
             summary = summarize_conversation("\n".join(sessions[session_id]["transcript"]))
-            print("🧾 Summary:", summary)
+            print("Summary:", summary)

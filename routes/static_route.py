@@ -10,3 +10,5 @@ def home():
 @router.get("/static/recorder-worklet.js")
 def get_worklet():
     return Response(open("static/recorder-worklet.js").read(), media_type="application/javascript")
+
+
